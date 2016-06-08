@@ -11,11 +11,13 @@ DECLARE clearRequestString VARCHAR(255) DEFAULT '';
 DECLARE currentChar VARCHAR(1);
 DECLARE regExpForSequence VARCHAR(255);
 
+/*result table where rowId saves output sequence*/
 CREATE TEMPORARY TABLE searchRequestResult(rowId INT NOT NULL AUTO_INCREMENT, rpId INT, rpNumber VARCHAR(255), PRIMARY KEY (rowId));
+/*tmp table with all numbers that satisfy the conditions*/
 CREATE TEMPORARY TABLE fullNumberTable(fnpId INT, fnpNumber VARCHAR(255));
-
+/*REGEXP that saves order for the search string in the original string*/
 SET regExpForSequence = '%';
-
+/*clearing search string from all not numeric characters - not required for clear search strings*/
 WHILE (pointer <= LENGTH(requestString))
 DO
 	SET currentChar = SUBSTRING(requestString, pointer, 1);	
