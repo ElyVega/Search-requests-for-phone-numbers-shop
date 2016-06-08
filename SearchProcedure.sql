@@ -28,21 +28,21 @@ DO
 	END IF;
 	SET pointer = pointer + 1;
 END WHILE;
-
+/*add phone number to tmp table if numbers contains the same count of same digits from search string*/
 INSERT INTO fullNumberTable (fnpId, fnpNumber)
 	SELECT product_id, REPLACE(_name, ' ', '') FROM _productsTable 
     WHERE
     (SELECT CompareNumbers(REPLACE(_name, ' ', ''), clearRequestString))	
     GROUP BY product_id;
-    
+/*add phone number to result set if numbers contains full search string without any difference*/    
 INSERT INTO searchRequestResult (rpId, rpNumber)
 	SELECT fnpId, fnpNumber FROM fullNumberTable
     WHERE CompareNumbersByRegExp(fnpNumber, CONCAT('%', clearRequestString, '%'));	
-    
+/*add phone number to result set if number contains same sequence of search string digits*/        
 INSERT INTO searchRequestResult (rpId, rpNumber)
 	SELECT fnpId, fnpNumber FROM fullNumberTable
 	WHERE fnpNumber LIKE regExpForSequence;    
-    
+/*add rest of phone numbers from tmp table to result set*/
 INSERT INTO searchRequestResult (rpId, rpNumber)
 	SELECT fnpId, fnpNumber FROM fullNumberTable;
 
