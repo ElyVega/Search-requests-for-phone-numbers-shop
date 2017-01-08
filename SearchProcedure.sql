@@ -12,6 +12,7 @@ DECLARE currentChar VARCHAR(1);
 DECLARE regExpForSequence VARCHAR(255);
 
 /*result table where rowId saves output sequence*/
+DROP TEMPORARY TABLE IF EXISTS `searchRequestResult`;
 CREATE TEMPORARY TABLE searchRequestResult(rowId INT NOT NULL AUTO_INCREMENT, rpId INT, rpNumber VARCHAR(255), PRIMARY KEY (rowId));
 /*tmp table with all numbers that satisfy the conditions*/
 CREATE TEMPORARY TABLE fullNumberTable(fnpId INT, fnpNumber VARCHAR(255));
@@ -47,7 +48,6 @@ INSERT INTO searchRequestResult (rpId, rpNumber)
 	SELECT fnpId, fnpNumber FROM fullNumberTable;
 
 DROP TEMPORARY TABLE `fullNumberTable`;
-DROP TEMPORARY TABLE `searchRequestResult`;
 
 SELECT rpId, rpNumber FROM searchRequestResult
 GROUP BY rpId
